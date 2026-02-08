@@ -79,18 +79,14 @@ if vista == "📝 Alta Solicitud":
             nom = st.text_input("Nombre Responsable")
             tel = st.text_input("Teléfono / WhatsApp")
             
-            st.markdown("<div class='section-header'>4. Ubicación</div>", unsafe_allow_html=True)
-            dir_in = st.text_input("Dirección (Calle y Número)")
-            zonas = ["San Miguel (La Bajada)", "San Miguel (Centro)", "Los Mochis (Centro)", 
-                     "Los Mochis (Norte)", "Los Mochis (Sur)", "Zona Rural", "Otro"]
-            zona = st.selectbox("Zona", zonas)
-
-        # --- COLUMNA DERECHA (2 y 3) ---
-        with col_der:
             st.markdown("<div class='section-header'>2. Perfil</div>", unsafe_allow_html=True)
             edad = st.number_input("Edad Beneficiario", 0, 110, step=1)
             pers = st.number_input("Personas en hogar", 1, 30, 4)
             
+
+        # --- COLUMNA DERECHA (2 y 3) ---
+        with col_der:
+                        
             st.markdown("<div class='section-header'>3. Necesidad</div>", unsafe_allow_html=True)
             cond = st.selectbox("Condición Crítica:", [
                 "🚑 Soporte Vital / Médico Crítico",
@@ -99,6 +95,13 @@ if vista == "📝 Alta Solicitud":
                 "🌪️ Emergencia Civil",
                 "📚 Escuela / Educación",
                 "🏠 Hogar General"
+
+            st.markdown("<div class='section-header'>4. Ubicación</div>", unsafe_allow_html=True)
+            dir_in = st.text_input("Dirección (Calle y Número)")
+            zonas = ["San Miguel (La Bajada)", "San Miguel (Centro)", "Los Mochis (Centro)", 
+                     "Los Mochis (Norte)", "Los Mochis (Sur)", "Zona Rural", "Otro"]
+            zona = st.selectbox("Zona", zonas)
+                
             ])
 
         st.markdown("---")
@@ -157,3 +160,4 @@ elif vista == "💻 Monitor (Stand)":
             st.warning("⚠️ Verificar disponibilidad de batería antes de despachar.")
         else:
             st.write("Esperando datos para análisis...")
+
