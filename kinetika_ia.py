@@ -4,10 +4,10 @@ import os
 import random
 from datetime import datetime
 
-# --- CONFIGURACIÓN DE PÁGINA ---
+# --- CONFIGURACIÓN DE PÁGINA PROFESIONAL ---
 st.set_page_config(page_title="KINETIKA: Alta de Solicitudes", page_icon="📝", layout="wide")
 
-# --- ESTILOS VISUALES (LIMPIOS) ---
+# --- ESTILOS VISUALES ---
 st.markdown("""
 <style>
     .main-header { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px; }
@@ -57,8 +57,6 @@ def guardar_registro(nombre, tel, dir_in, zona, edad, pers, cond):
     return True
 
 # --- MENÚ OCULTO (Para que el usuario no se pierda) ---
-# Usamos un truco: Si entras normal ves registro. Si quieres ver monitor, hay que saber buscarlo
-# O simplemente mantenemos el sidebar limpio.
 vista = st.sidebar.radio("Navegación", ["📝 Alta Solicitud", "💻 Monitor (Stand)"])
 
 # ==========================================
@@ -70,22 +68,24 @@ if vista == "📝 Alta Solicitud":
     with st.form("form_registro", clear_on_submit=True):
         st.write("Por favor ingresa los datos requeridos.")
         
-        # DISEÑO EXACTO DE TU IMAGEN (2 COLUMNAS)
+        # DISEÑO CORREGIDO (1 y 2 IZQ | 3 y 4 DER)
         col_izq, col_der = st.columns(2)
         
-        # --- COLUMNA IZQUIERDA (1 y 2) ---
+        # --- COLUMNA IZQUIERDA (Secciones 1 y 2) ---
         with col_izq:
+            # SECCIÓN 1
             st.markdown("<div class='section-header'>1. Identificación</div>", unsafe_allow_html=True)
             nom = st.text_input("Nombre Responsable")
             tel = st.text_input("Teléfono / WhatsApp")
             
+            # SECCIÓN 2
             st.markdown("<div class='section-header'>2. Perfil</div>", unsafe_allow_html=True)
             edad = st.number_input("Edad Beneficiario", 0, 110, step=1)
-            pers = st.number_input("Personas en hogar", 1, 30, 4))
-            
-        # --- COLUMNA DERECHA (3 y 4) ---
+            pers = st.number_input("Personas en hogar", 1, 30, 4)
+
+        # --- COLUMNA DERECHA (Secciones 3 y 4) ---
         with col_der:
-                        
+            # SECCIÓN 3
             st.markdown("<div class='section-header'>3. Necesidad</div>", unsafe_allow_html=True)
             cond = st.selectbox("Condición Crítica:", [
                 "🚑 Soporte Vital / Médico Crítico",
@@ -96,6 +96,7 @@ if vista == "📝 Alta Solicitud":
                 "🏠 Hogar General"
             ])
             
+            # SECCIÓN 4
             st.markdown("<div class='section-header'>4. Ubicación</div>", unsafe_allow_html=True)
             dir_in = st.text_input("Dirección (Calle y Número)")
             zonas = ["San Miguel (La Bajada)", "San Miguel (Centro)", "Los Mochis (Centro)", 
@@ -114,7 +115,7 @@ if vista == "📝 Alta Solicitud":
             st.error("⚠️ Faltan datos obligatorios (Nombre, Teléfono o Dirección).")
 
 # ==========================================
-# VISTA 2: MONITOR (SOLO LOGÍSTICA)
+# VISTA 2: MONITOR
 # ==========================================
 elif vista == "💻 Monitor (Stand)":
     st.title("📋 Triaje en Tiempo Real")
@@ -158,5 +159,3 @@ elif vista == "💻 Monitor (Stand)":
             st.warning("⚠️ Verificar disponibilidad de batería antes de despachar.")
         else:
             st.write("Esperando datos para análisis...")
-
-
