@@ -12,19 +12,22 @@ st.markdown("""
 <style>
     .main-header { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px; }
     .section-header { font-size: 18px; font-weight: bold; color: #2E86C1; margin-top: 10px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
-    .stButton>button { 
+    
+    /* AQUÍ ESTÁ EL TRUCO: !important OBLIGA AL BOTÓN A SER VERDE */
+    div.stButton > button { 
         width: 100%; 
         border-radius: 5px; 
         height: 3em; 
         font-weight: bold; 
-        background-color: #28a745; /* VERDE ÉXITO */
-        color: white;
-        border: none;
+        background-color: #28a745 !important; /* Color Verde Forzado */
+        color: white !important;
+        border: none !important;
     }
-    .stButton>button:hover {
-        background-color: #218838; /* Verde más oscuro al pasar el mouse */
-        color: white;
+    div.stButton > button:hover {
+        background-color: #218838 !important; /* Verde más oscuro al pasar el mouse */
+        color: white !important;
     }
+
     .priority-card {
         background-color: #f8f9fa; border-left: 5px solid #2E86C1; padding: 20px; border-radius: 5px; margin-bottom: 20px;
     }
@@ -179,6 +182,7 @@ elif vista == "💻 Monitor (Stand)":
             st.success("✅ Batería Kinetika Autorizada para entrega.")
         else:
             st.write("Sin datos para analizar.")
+
 
 
 
