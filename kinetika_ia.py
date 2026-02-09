@@ -7,7 +7,7 @@ from datetime import datetime
 # --- CONFIGURACIÓN DE PÁGINA PROFESIONAL ---
 st.set_page_config(page_title="KINETIKA: Alta de Solicitudes", page_icon="📝", layout="wide")
 
-# --- ESTILOS VISUALES ---
+# --- ESTILOS VISUALES (LIMPIOS Y SERIOS) ---
 st.markdown("""
 <style>
     .main-header { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px; }
@@ -21,7 +21,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- BASE DE DATOS ---
-ARCHIVO_DB = "kinetika_db_v2.csv"
+ARCHIVO_DB = "kinetika_db_final.csv"
 
 def cargar_datos():
     if not os.path.exists(ARCHIVO_DB):
@@ -32,29 +32,30 @@ def cargar_datos():
     return pd.read_csv(ARCHIVO_DB)
 
 def guardar_registro(nombre, tel, dir_in, zona, edad, pers, cond):
-    # LÓGICA DE PRIORIZACIÓN V2 (ENFOQUE: VULNERABILIDAD SOCIAL)
+    # --- EL ALGORITMO ÉTICO (DISEÑADO POR EL EQUIPO) ---
     puntos = 100 
     
-    # 1. Criterio Médico (La base de la urgencia)
+    # 1. CRITERIO DE SUPERVIVENCIA (Médico)
     if "Soporte Vital" in cond: puntos += 1000
     elif "Medicamento" in cond: puntos += 500
     elif "Adulto Mayor" in cond: puntos += 300
     elif "Emergencia Civil" in cond: puntos += 800
     elif "Escuela" in cond: puntos += 300
     
-    # 2. Criterio de Red de Apoyo (CORREGIDO POR EL COACH)
-    # Menos personas = Más riesgo de colapso del cuidador = MÁS PUNTOS
+    # 2. CRITERIO DE RED DE APOYO (JUSTICIA SOCIAL)
+    # Menos personas = Más vulnerabilidad del cuidador = MÁS PUNTOS
     if pers <= 2:
-        puntos += 200  # 🚨 ALERTA ROJA: Cuidador Solitario (Riesgo de burnout)
+        puntos += 200  # 🚨 PRIORIDAD ALTA: Riesgo de colapso del cuidador
     elif pers <= 4:
-        puntos += 100  # ⚠️ ALERTA AMARILLA: Red de apoyo pequeña
+        puntos += 100  # ⚠️ PRIORIDAD MEDIA: Familia pequeña
     else:
-        puntos += 20   # ✅ Red de apoyo robusta (tienen quien ayude)
-
-    # 3. Factor Climático Simulado (Aleatorio para demo)
+        puntos += 20   # ✅ ESTABLE: Red de apoyo suficiente
+    
+    # 3. FACTOR CLIMÁTICO (Simulado)
+    # Simula si hay ola de calor en ese momento
     temp_actual = random.uniform(36.0, 41.0) 
     if temp_actual > 38.0 and (edad > 60 or edad < 5):
-        puntos += 150 # Bono por vulnerabilidad al calor
+        puntos += 150 # Bono por Golpe de Calor
         
     df = cargar_datos()
     nuevo = pd.DataFrame({
@@ -67,7 +68,7 @@ def guardar_registro(nombre, tel, dir_in, zona, edad, pers, cond):
     df.to_csv(ARCHIVO_DB, index=False)
     return True
 
-# --- MENÚ OCULTO (Para que el usuario no se pierda) ---
+# --- MENÚ DE NAVEGACIÓN ---
 vista = st.sidebar.radio("Navegación", ["📝 Alta Solicitud", "💻 Monitor (Stand)"])
 
 # ==========================================
@@ -77,28 +78,25 @@ if vista == "📝 Alta Solicitud":
     st.markdown("<div class='main-header'>📄 Alta de Solicitudes</div>", unsafe_allow_html=True)
     
     with st.form("form_registro", clear_on_submit=True):
-        st.write("Por favor ingresa los datos requeridos.")
+        st.write("Complete los campos para evaluación IA.")
         
-        # DISEÑO CORREGIDO (1 y 2 IZQ | 3 y 4 DER)
+        # DISEÑO ERGONÓMICO: (Identidad/Perfil) vs (Necesidad/Ubicación)
         col_izq, col_der = st.columns(2)
         
-        # --- COLUMNA IZQUIERDA (Secciones 1 y 2) ---
+        # --- COLUMNA IZQUIERDA ---
         with col_izq:
-            # SECCIÓN 1
             st.markdown("<div class='section-header'>1. Identificación</div>", unsafe_allow_html=True)
             nom = st.text_input("Nombre Responsable")
             tel = st.text_input("Teléfono / WhatsApp")
             
-            # SECCIÓN 2
-            st.markdown("<div class='section-header'>2. Perfil</div>", unsafe_allow_html=True)
-            edad = st.number_input("Edad Beneficiario", 0, 110, step=1)
-            pers = st.number_input("Personas en hogar", 1, 30, 4)
+            st.markdown("<div class='section-header'>2. Perfil del Hogar</div>", unsafe_allow_html=True)
+            edad = st.number_input("Edad del Beneficiario", 0, 110, step=1)
+            pers = st.number_input("Personas en la vivienda", 1, 30, 2, help="Menos personas aumentan la prioridad por falta de relevos.")
 
-        # --- COLUMNA DERECHA (Secciones 3 y 4) ---
+        # --- COLUMNA DERECHA ---
         with col_der:
-            # SECCIÓN 3
-            st.markdown("<div class='section-header'>3. Necesidad</div>", unsafe_allow_html=True)
-            cond = st.selectbox("Condición Crítica:", [
+            st.markdown("<div class='section-header'>3. Necesidad Crítica</div>", unsafe_allow_html=True)
+            cond = st.selectbox("Condición:", [
                 "🚑 Soporte Vital / Médico Crítico",
                 "❄️ Salud: Medicamento Refrigerado",
                 "👵 Adulto Mayor / Discapacidad",
@@ -107,7 +105,6 @@ if vista == "📝 Alta Solicitud":
                 "🏠 Hogar General"
             ])
             
-            # SECCIÓN 4
             st.markdown("<div class='section-header'>4. Ubicación</div>", unsafe_allow_html=True)
             dir_in = st.text_input("Dirección (Calle y Número)")
             zonas = ["San Miguel (La Bajada)", "San Miguel (Centro)", "Los Mochis (Centro)", 
@@ -115,18 +112,17 @@ if vista == "📝 Alta Solicitud":
             zona = st.selectbox("Zona", zonas)
 
         st.markdown("---")
-        # Botón Guardar
-        enviar = st.form_submit_button("GUARDAR REGISTRO")
+        enviar = st.form_submit_button("GUARDAR Y CALCULAR PRIORIDAD")
         
     if enviar:
         if nom and tel and dir_in:
             guardar_registro(nom, tel, dir_in, zona, edad, pers, cond)
-            st.success("✅ Registro guardado exitosamente en el sistema Kinetika.")
+            st.success("✅ Solicitud procesada. El algoritmo ha calculado el índice de urgencia.")
         else:
-            st.error("⚠️ Faltan datos obligatorios (Nombre, Teléfono o Dirección).")
+            st.error("⚠️ Error: Datos incompletos.")
 
 # ==========================================
-# VISTA 2: MONITOR
+# VISTA 2: MONITOR (LOGÍSTICA)
 # ==========================================
 elif vista == "💻 Monitor (Stand)":
     st.title("📋 Triaje en Tiempo Real")
@@ -135,7 +131,7 @@ elif vista == "💻 Monitor (Stand)":
     
     df = cargar_datos()
     
-    # --- LADO IZQUIERDO: LA LISTA ---
+    # --- LISTA DE ESPERA ---
     with col_lista:
         if st.button("🔄 ACTUALIZAR LISTA"):
             st.rerun()
@@ -144,30 +140,30 @@ elif vista == "💻 Monitor (Stand)":
             df = df.sort_values(by="Puntaje", ascending=False)
             st.dataframe(df[["Nombre", "Puntaje", "Condicion"]], hide_index=True, use_container_width=True)
         else:
-            st.info("No hay solicitudes pendientes.")
+            st.info("Sistema en espera de solicitudes...")
 
-    # --- LADO DERECHO: DETALLE COMPLETO (FICHA TÉCNICA) ---
+    # --- FICHA DE ENTREGA ---
     with col_detalle:
-        st.subheader("🏆 PRIO #1: DETALLE DE ENTREGA")
+        st.subheader("🏆 ASIGNACIÓN INMEDIATA")
         
         if not df.empty:
-            top = df.iloc[0] # El primero de la lista
+            top = df.iloc[0] # El Ganador
             
-            # TARJETA DE INFORMACIÓN COMPLETA
             st.markdown(f"""
             <div class="priority-card">
                 <h3>👤 {top['Nombre']}</h3>
-                <p><span class="data-label">🚨 Motivo:</span> {top['Condicion']}</p>
-                <p><span class="data-label">📍 Dirección:</span> {top['Direccion']}</p>
-                <p><span class="data-label">🌍 Zona:</span> {top['Zona']}</p>
-                <p><span class="data-label">📞 Contacto:</span> {top['Telefono']}</p>
+                <p><span class="data-label">🚨 Condición:</span> {top['Condicion']}</p>
+                <p><span class="data-label">📍 Ubicación:</span> {top['Direccion']} ({top['Zona']})</p>
                 <hr>
-                <p><span class="data-label">🎂 Edad:</span> {top['Edad']} años | <span class="data-label">🏠 Gente:</span> {top['Personas']}</p>
-                <p><span class="data-label">💯 SCORE IA:</span> {top['Puntaje']} Pts</p>
+                <p><span class="data-label">🏠 Red de Apoyo:</span> {top['Personas']} personas</p>
+                <p><span class="data-label">🎂 Edad Paciente:</span> {top['Edad']} años</p>
+                <div style="background-color: #e2e6ea; padding: 10px; border-radius: 5px; margin-top: 10px; text-align: center;">
+                    <span class="data-label">SCORE DE URGENCIA:</span><br>
+                    <span style="font-size: 30px; color: #2E86C1; font-weight: bold;">{top['Puntaje']} Pts</span>
+                </div>
             </div>
             """, unsafe_allow_html=True)
             
-            st.warning("⚠️ Verificar disponibilidad de batería antes de despachar.")
+            st.success("✅ Batería Kinetika Autorizada para entrega.")
         else:
-            st.write("Esperando datos para análisis...")
-
+            st.write("Sin datos para analizar.")
