@@ -32,15 +32,26 @@ def cargar_datos():
     return pd.read_csv(ARCHIVO_DB)
 
 def guardar_registro(nombre, tel, dir_in, zona, edad, pers, cond):
-    # LÓGICA DE PRIORIZACIÓN (ALGORITMO ÉTICO)
+    # LÓGICA DE PRIORIZACIÓN V2 (ENFOQUE: VULNERABILIDAD SOCIAL)
     puntos = 100 
+    
+    # 1. Criterio Médico (La base de la urgencia)
     if "Soporte Vital" in cond: puntos += 1000
     elif "Medicamento" in cond: puntos += 500
     elif "Adulto Mayor" in cond: puntos += 300
     elif "Emergencia Civil" in cond: puntos += 800
     elif "Escuela" in cond: puntos += 300
     
-    # Factor Climático Simulado (Invisible al usuario)
+    # 2. Criterio de Red de Apoyo (CORREGIDO POR EL COACH)
+    # Menos personas = Más riesgo de colapso del cuidador = MÁS PUNTOS
+    if pers <= 2:
+        puntos += 200  # 🚨 ALERTA ROJA: Cuidador Solitario (Riesgo de burnout)
+    elif pers <= 4:
+        puntos += 100  # ⚠️ ALERTA AMARILLA: Red de apoyo pequeña
+    else:
+        puntos += 20   # ✅ Red de apoyo robusta (tienen quien ayude)
+
+    # 3. Factor Climático Simulado (Aleatorio para demo)
     temp_actual = random.uniform(36.0, 41.0) 
     if temp_actual > 38.0 and (edad > 60 or edad < 5):
         puntos += 150 # Bono por vulnerabilidad al calor
@@ -159,3 +170,4 @@ elif vista == "💻 Monitor (Stand)":
             st.warning("⚠️ Verificar disponibilidad de batería antes de despachar.")
         else:
             st.write("Esperando datos para análisis...")
+
