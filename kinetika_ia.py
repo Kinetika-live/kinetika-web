@@ -112,12 +112,12 @@ if vista == "📝 Alta Solicitud":
             zona = st.selectbox("Zona", zonas)
 
         st.markdown("---")
-        enviar = st.form_submit_button("GUARDAR Y CALCULAR PRIORIDAD")
+        enviar = st.form_submit_button("ENVIAR REGISTRO")
         
     if enviar:
         if nom and tel and dir_in:
             guardar_registro(nom, tel, dir_in, zona, edad, pers, cond)
-            st.success("✅ Solicitud procesada. El algoritmo ha calculado el índice de urgencia.")
+            st.success("✅ Solicitud procesada.")
         else:
             st.error("⚠️ Error: Datos incompletos.")
 
@@ -167,3 +167,4 @@ elif vista == "💻 Monitor (Stand)":
             st.success("✅ Batería Kinetika Autorizada para entrega.")
         else:
             st.write("Sin datos para analizar.")
+
