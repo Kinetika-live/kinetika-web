@@ -78,7 +78,7 @@ if vista == "📝 Alta Solicitud":
     st.markdown("<div class='main-header'>📄 Alta de Solicitudes</div>", unsafe_allow_html=True)
     
     with st.form("form_registro", clear_on_submit=True):
-        st.write("Complete los campos para evaluación IA.")
+        st.write("COMPLETE LOS CAMPOS PARA SU EVALUACIÓN.")
         
         # DISEÑO ERGONÓMICO: (Identidad/Perfil) vs (Necesidad/Ubicación)
         col_izq, col_der = st.columns(2)
@@ -125,7 +125,7 @@ if vista == "📝 Alta Solicitud":
 # VISTA 2: MONITOR (LOGÍSTICA)
 # ==========================================
 elif vista == "💻 Monitor (Stand)":
-    st.title("📋 Triaje en Tiempo Real")
+    st.title("📋 Triaje de Beneficiarios")
     
     col_lista, col_detalle = st.columns([1, 1])
     
@@ -167,4 +167,5 @@ elif vista == "💻 Monitor (Stand)":
             st.success("✅ Batería Kinetika Autorizada para entrega.")
         else:
             st.write("Sin datos para analizar.")
+
 
