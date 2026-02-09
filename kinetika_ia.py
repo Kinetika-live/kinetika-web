@@ -112,7 +112,7 @@ if vista == "📝 Alta Solicitud":
             zona = st.selectbox("Zona", zonas)
 
         st.markdown("---")
-        enviar = st.form_submit_button("GUARDAR Y CALCULAR PRIORIDAD")
+        enviar = st.form_submit_button("ENVIAR SOLICITUD")
         
     if enviar:
         if nom and tel and dir_in:
@@ -167,3 +167,4 @@ elif vista == "💻 Monitor (Stand)":
             st.success("✅ Batería Kinetika Autorizada para entrega.")
         else:
             st.write("Sin datos para analizar.")
+
