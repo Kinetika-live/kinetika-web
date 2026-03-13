@@ -7,7 +7,7 @@ from datetime import datetime
 # --- CONFIGURACIÓN DE PÁGINA PROFESIONAL ---
 st.set_page_config(page_title="KINETIKA: Alta de Solicitudes", page_icon="📝", layout="wide")
 
-# --- ESTILOS VISUALES (LIMPIOS Y SERIOS) ---
+# --- ESTILOS VISUALES ---
 st.markdown("""
 <style>
     .main-header { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px; }
@@ -182,6 +182,7 @@ elif vista == "💻 Monitor (Stand)":
             st.success("✅ Batería Kinetika Autorizada para entrega.")
         else:
             st.write("Sin datos para analizar.")
+
 
 
 
